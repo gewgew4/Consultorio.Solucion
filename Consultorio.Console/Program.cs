@@ -1,6 +1,8 @@
 using Consola.Menus;
 using Consultorio.Application.Pacientes;
 using Consultorio.Application.Profesionales;
+using Consultorio.Application.Turnos;
+using Consultorio.Domain.Tarifas;
 using Consultorio.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,46 +38,53 @@ internal class Program
         builder.Services.AddScoped<PacienteServicio>();
         builder.Services.AddScoped<MenuProfesionales>();
         builder.Services.AddScoped<MenuPacientes>();
-
-        // TODO (Puntos 2 y 5): Registrar ICalculadorTarifa (con tu implementación Strategy), TurnoServicio y MenuTurnos con AddScoped.
+        builder.Services.AddScoped<ICalculadorTarifa, CalculadorTarifaVespertina>();
+        builder.Services.AddScoped<TurnoServicio>();
+        builder.Services.AddScoped<MenuTurnos>();
 
         using var host = builder.Build();
         var logger = host.Services.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("Consultorio iniciado.");
 
-        // TODO (Punto 5): Envolver el cuerpo del while (true) en un único try/catch (Exception ex) que registre con logger.LogError(...) y muestre un mensaje amigable sin cerrar la aplicación.
         while (true)
         {
-            Console.WriteLine();
-            Console.WriteLine("===================================");
-            Console.WriteLine("        CONSULTORIO v1.0");
-            Console.WriteLine("===================================");
-            Console.WriteLine(" 1. Profesionales");
-            Console.WriteLine(" 2. Pacientes");
-            Console.WriteLine(" 3. Turnos");
-            Console.WriteLine(" 0. Salir");
-            Console.WriteLine("-----------------------------------");
-            var opcion = Lector.LeerTexto("Opción");
-            if (opcion == "0")
-                return;
-
-            using var alcance = host.Services.CreateScope();
-            var proveedor = alcance.ServiceProvider;
-            switch (opcion)
+            try
             {
-                case "1":
-                    await proveedor.GetRequiredService<MenuProfesionales>().EjecutarAsync();
-                    break;
-                case "2":
-                    await proveedor.GetRequiredService<MenuPacientes>().EjecutarAsync();
-                    break;
-                case "3":
-                    // TODO (Punto 5): Llamar a await proveedor.GetRequiredService<MenuTurnos>().EjecutarAsync();
-                    Console.WriteLine("Módulo de Turnos pendiente de implementar.");
-                    break;
-                default:
-                    Console.WriteLine("Opción inválida.");
-                    break;
+                Console.WriteLine();
+                Console.WriteLine("===================================");
+                Console.WriteLine("        CONSULTORIO v1.0");
+                Console.WriteLine("===================================");
+                Console.WriteLine(" 1. Profesionales");
+                Console.WriteLine(" 2. Pacientes");
+                Console.WriteLine(" 3. Turnos");
+                Console.WriteLine(" 0. Salir");
+                Console.WriteLine("-----------------------------------");
+                var opcion = Lector.LeerTexto("Opción");
+                if (opcion == "0")
+                    return;
+
+                using var alcance = host.Services.CreateScope();
+                var proveedor = alcance.ServiceProvider;
+                switch (opcion)
+                {
+                    case "1":
+                        await proveedor.GetRequiredService<MenuProfesionales>().EjecutarAsync();
+                        break;
+                    case "2":
+                        await proveedor.GetRequiredService<MenuPacientes>().EjecutarAsync();
+                        break;
+                    case "3":
+                        await proveedor.GetRequiredService<MenuTurnos>().EjecutarAsync();
+                        break;
+                    default:
+                        Console.WriteLine("Opción inválida.");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error inesperado en la aplicación.");
+                Console.WriteLine("Ocurrió un error inesperado. Revisá los logs e intentá nuevamente.");
             }
         }
     }
