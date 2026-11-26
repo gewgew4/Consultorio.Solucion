@@ -27,13 +27,13 @@ public static class Errores
     public static class Turno
     {
         public static readonly Error HorarioInválido = new("Turno.HorarioInválido", "El horario de inicio debe corresponder a minutos :00 o :30.");
-        public static readonly Error FueraDeHorario = new("Turno.FueraDeHorario", "El horario de inicio debe estar entre las 08:00 y las 19:30.");
-        public static readonly Error FechaFueraDeRango = new("Turno.FechaFueraDeRango", "No se permiten fechas pasadas ni con más de 15 días de anticipación.");
+        public static readonly Error FueraDeHorario = new("Turno.FueraDeHorario", "El horario de inicio debe estar entre las 09:00 y las 20:30.");
+        public static readonly Error FechaFueraDeRango = new("Turno.FechaFueraDeRango", "No se permiten fechas pasadas ni con más de 10 días de anticipación.");
         public static readonly Error ProfesionalNoDisponible = new("Turno.ProfesionalNoDisponible", "El profesional no existe o no se encuentra activo.");
         public static readonly Error PacienteInactivo = new("Turno.PacienteInactivo", "El paciente no existe o no se encuentra activo.");
         public static readonly Error Superpuesto = new("Turno.Superpuesto", "El profesional ya tiene un turno confirmado en ese horario.");
         public static readonly Error YaCancelado = new("Turno.YaCancelado", "El turno ya se encuentra cancelado.");
-        public static readonly Error CancelaciónTardía = new("Turno.CancelaciónTardía", "El turno debe cancelarse con al menos 12 horas de anticipación.");
+        public static readonly Error CancelaciónTardía = new("Turno.CancelaciónTardía", "El turno debe cancelarse con al menos 24 horas de anticipación.");
         public static readonly Error NoEncontrado = new("Turno.NoEncontrado", "No se encontró el turno solicitado.");
     }
 }

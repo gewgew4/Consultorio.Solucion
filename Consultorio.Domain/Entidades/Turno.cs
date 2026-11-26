@@ -5,11 +5,11 @@ namespace Consultorio.Domain.Entidades;
 
 public sealed class Turno
 {
-    public static readonly TimeSpan Duración = TimeSpan.FromMinutes(30);
-    static readonly TimeSpan HoraInicioMínima = new(8, 0, 0);
-    static readonly TimeSpan HoraInicioMáxima = new(19, 30, 0);
-    const int DíasAnticipaciónMáxima = 15;
-    static readonly TimeSpan AnticipaciónMínimaCancelación = TimeSpan.FromHours(12);
+    public static readonly TimeSpan Duración = TimeSpan.FromMinutes(45);
+    static readonly TimeSpan HoraInicioMínima = new(9, 0, 0);
+    static readonly TimeSpan HoraInicioMáxima = new(20, 30, 0);
+    const int DíasAnticipaciónMáxima = 10;
+    static readonly TimeSpan AnticipaciónMínimaCancelación = TimeSpan.FromHours(24);
 
     Turno() { }
 
