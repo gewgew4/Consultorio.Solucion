@@ -1,20 +1,10 @@
-# Consultorio (Plantilla de Recuperatorio)
+# Consultorio (Tema 1)
 
-Solución base en C# 13 / .NET 9 con arquitectura en capas y persistencia en SQL Server mediante EF Core 9 (sin migraciones).
-
-## Qué incluye el repositorio
-
-- `Consultorio.Domain`: `Result`, `Result<T>`, `Error`, entidades `Profesional` y `Paciente`, interfaces de repositorio y `Errores`.
-- `Consultorio.Application`: `IUnidadDeTrabajo`, `ProfesionalServicio`, `PacienteServicio` y sus DTOs.
-- `Consultorio.Infrastructure`: `ConsultorioDbContext`, configuraciones Fluent API, repositorios EF Core e `Inyeccion`.
-- `Consultorio.Console`: menú de consola, `Program.cs`, `Lector`, `Salida`, `MenuProfesionales`, `MenuPacientes` y `appsettings.json`.
-- `nuget.config` y `nuget-offline/`: paquetes NuGet necesarios para restaurar y compilar sin conexión a internet.
-- Comentarios `// TODO` en los archivos donde tenés que completar o conectar tu implementación.
+Solución total en C# 13 / .NET 9 con arquitectura en capas y persistencia en SQL Server mediante EF Core 9 (sin migraciones).
 
 ## Base de datos (SQL Server, sin migraciones)
 
-1. Este proyecto no utiliza migraciones de EF Core. Creá la base `Consultorio` y las tablas desde SQL Server Management Studio (SSMS) usando sentencias `CREATE TABLE` e `INSERT` según el enunciado de tu Tema.
-2. Si tu instancia local no es `(localdb)\MSSQLLocalDB`, actualizá la cadena de conexión `Consultorio` en `Consultorio.Console/appsettings.json`.
+1. Este proyecto no utiliza migraciones de EF Core.
 
 ## Qué tenés que entregar
 
