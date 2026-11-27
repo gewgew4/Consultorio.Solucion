@@ -7,8 +7,7 @@ public sealed class ConsultorioDbContext(DbContextOptions<ConsultorioDbContext> 
 {
     public DbSet<Profesional> Profesionales => Set<Profesional>();
     public DbSet<Paciente> Pacientes => Set<Paciente>();
-
-    // TODO (Punto 4): Agregar DbSet<Turno> Turnos => Set<Turno>(); (y crear Configuraciones/TurnoConfiguracion.cs con Fluent API).
+    public DbSet<Turno> Turnos => Set<Turno>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ConsultorioDbContext).Assembly);

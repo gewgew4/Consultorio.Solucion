@@ -6,8 +6,10 @@ using Consultorio.Domain.Repositorios;
 
 namespace Consultorio.Application.Pacientes;
 
-// TODO (Punto 3 - PA1): Inyectar ITurnoRepositorio en el constructor para verificar turnos confirmados futuros al dar de baja.
-public sealed class PacienteServicio(IPacienteRepositorio repositorio, IUnidadDeTrabajo unidad)
+public sealed class PacienteServicio(
+    IPacienteRepositorio repositorio,
+    ITurnoRepositorio turnoRepositorio,
+    IUnidadDeTrabajo unidad)
 {
     public async Task<Result<IReadOnlyList<PacienteDto>>> ListarActivosAsync(CancellationToken ct = default)
     {
@@ -39,7 +41,8 @@ public sealed class PacienteServicio(IPacienteRepositorio repositorio, IUnidadDe
         if (paciente is null)
             return Result.Fallo(Errores.Paciente.NoEncontrado);
 
-        // TODO (Punto 3 - PA1): Inyectar ITurnoRepositorio y validar que el paciente no tenga turnos confirmados futuros (Errores.Paciente.TieneTurnosPendientes) antes de dar de baja.
+        if (await turnoRepositorio.PacienteTieneTurnosFuturosAsync(paciente.Id, DateTime.Now, ct))
+            return Result.Fallo(Errores.Paciente.TieneTurnosPendientes);
 
         paciente.Deshabilitar();
         await unidad.GuardarAsync(ct);
