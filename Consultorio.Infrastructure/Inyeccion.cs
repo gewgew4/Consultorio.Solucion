@@ -14,9 +14,8 @@ public static class Inyeccion
         services.AddDbContext<ConsultorioDbContext>(opciones => opciones.UseSqlServer(cadena));
         services.AddScoped<IProfesionalRepositorio, ProfesionalRepositorio>();
         services.AddScoped<IPacienteRepositorio, PacienteRepositorio>();
+        services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
         services.AddScoped<IUnidadDeTrabajo, UnidadDeTrabajo>();
-
-        // TODO (Punto 4): Registrar ITurnoRepositorio con TurnoRepositorio usando services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
 
         return services;
     }

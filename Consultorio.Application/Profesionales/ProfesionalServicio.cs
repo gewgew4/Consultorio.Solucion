@@ -6,8 +6,10 @@ using Consultorio.Domain.Repositorios;
 
 namespace Consultorio.Application.Profesionales;
 
-// TODO (Punto 3 - P1): Inyectar ITurnoRepositorio en el constructor para verificar turnos confirmados futuros al deshabilitar.
-public sealed class ProfesionalServicio(IProfesionalRepositorio repositorio, IUnidadDeTrabajo unidad)
+public sealed class ProfesionalServicio(
+    IProfesionalRepositorio repositorio,
+    ITurnoRepositorio turnoRepositorio,
+    IUnidadDeTrabajo unidad)
 {
     public async Task<Result<IReadOnlyList<ProfesionalDto>>> ListarAsync(CancellationToken ct = default)
     {
@@ -39,7 +41,8 @@ public sealed class ProfesionalServicio(IProfesionalRepositorio repositorio, IUn
         if (profesional is null)
             return Result.Fallo(Errores.Profesional.NoEncontrado);
 
-        // TODO (Punto 3 - P1): Inyectar ITurnoRepositorio y validar que el profesional no tenga turnos confirmados futuros (Errores.Profesional.TieneTurnosPendientes) antes de deshabilitar.
+        if (await turnoRepositorio.ProfesionalTieneTurnosFuturosAsync(profesional.Id, DateTime.Now, ct))
+            return Result.Fallo(Errores.Profesional.TieneTurnosPendientes);
 
         profesional.Deshabilitar();
         await unidad.GuardarAsync(ct);
